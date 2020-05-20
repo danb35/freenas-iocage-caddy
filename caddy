@@ -7,7 +7,7 @@
 #
 # Add the following lines to /etc/rc.conf to enable caddy:
 # caddy_enable (bool):        Set to "NO" by default.
-#                             Set it to "YES" to enable caddy.
+#                             Set it to "YES" to enable caddy
 #
 # caddy_bin_path (str):       Set to "/usr/local/bin/caddy" by default.
 #                             Provides the path to the caddy server executable
