@@ -21,6 +21,8 @@
 name="caddy"
 rcvar="${name}_enable"
 
+start_cmd="${name}_start"
+
 load_rc_config ${name}
 
 : ${caddy_enable:="NO"}
@@ -30,5 +32,10 @@ load_rc_config ${name}
 command="${caddy_bin_path}" 
 
 required_files="${caddy_config_path}"
+
+caddy_start()
+{
+  $command start --config ${caddy_config_path}
+}
 
 run_rc_command "$1"
