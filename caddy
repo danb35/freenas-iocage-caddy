@@ -21,10 +21,11 @@
 name="caddy"
 rcvar="${name}_enable"
 
-extra_commands="reload"
+extra_commands="reload validate"
 
 start_cmd="${name}_start"
 reload_cmd="${name}_reload"
+validate_cmd="${name}_validate"
 
 load_rc_config ${name}
 
@@ -44,6 +45,11 @@ caddy_start()
 caddy_reload()
 {
   $command reload --config ${caddy_config_path}
+}
+
+caddy_validate()
+{
+  $command validate --config ${caddy_config_path}
 }
 
 run_rc_command "$1"
