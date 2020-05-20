@@ -1,1 +1,1 @@
-#! /bin/sh abc
+#! /bin/sh
