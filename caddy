@@ -21,7 +21,10 @@
 name="caddy"
 rcvar="${name}_enable"
 
+extra_commands="reload"
+
 start_cmd="${name}_start"
+reload_cmd="${name}_reload"
 
 load_rc_config ${name}
 
@@ -36,6 +39,11 @@ required_files="${caddy_config_path}"
 caddy_start()
 {
   $command start --config ${caddy_config_path}
+}
+
+caddy_reload()
+{
+  $command reload --config ${caddy_config_path}
 }
 
 run_rc_command "$1"
