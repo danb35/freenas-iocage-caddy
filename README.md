@@ -66,6 +66,7 @@ The install script will (eventually!) mirror the majority of steps below, which 
  1. No support for automatic trust store installation on FreeBSD https://caddy.community/t/starting-with-caddy2-basic-caddyfile-trying-to-use-port-80/7473/7
  
  ### References
- 1. Caddy V2 command line https://caddyserver.com/docs/command-line
- 2. Caddy V2 release https://github.com/caddyserver/caddy/releases/tag/v2.0.0
- 3. Practical rc.d scripting https://www.freebsd.org/doc/en_US.ISO8859-1/articles/rc-scripting/
+ 1. Practical rc.d scripting https://www.freebsd.org/doc/en_US.ISO8859-1/articles/rc-scripting/
+ 2. Caddy V2 command line https://caddyserver.com/docs/command-line
+ 3. Caddy V2 release https://github.com/caddyserver/caddy/releases/tag/v2.0.0
+
