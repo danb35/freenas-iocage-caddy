@@ -17,8 +17,10 @@ For other configurable script parameters, refer to the comments at the top of th
 3. `caddy_config_path` - location of the Caddyfile. The default is /usr/local/www/Caddyfile
 
 To change the defaults add lines to /etc/rc.conf. For example:
-`sysrc caddy_enable="YES"`
-`sysrc caddy_bin_path="/usr/local/sbin/caddy"`
+```
+sysrc caddy_enable="YES"
+sysrc caddy_bin_path="/usr/local/sbin/caddy"
+```
 
 Additional configurable script parameters may be added at a later stage if deemed useful. 
 
@@ -49,6 +51,8 @@ The script will mirror the steps below, that are presently manually executed.
 
 # Start and test the Caddy installation
   sysrc caddy_enable="YES"
+  service caddy start
+  In a browser, enter jail_IP:2015. You should see 'Hello World' returned.  
   Restart the jail.
-  In a browser, enter jail_IP:2015. You should see 'Hello World' returned.
+  Repeat the browser check
  ```
