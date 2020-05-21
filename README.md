@@ -60,7 +60,7 @@ The install script will (eventually!) mirror the majority of steps below, which 
  ```
  
  #### 2. Support TLS with DNS validation
- At present, only **No TLS** and **TLS with HTTP validation** are supported.
+ At present, only **No TLS** and **TLS with HTTP validation** have been considered.
  
  ### Known issues
  1. No support for automatic trust store installation on FreeBSD https://caddy.community/t/starting-with-caddy2-basic-caddyfile-trying-to-use-port-80/7473/7
