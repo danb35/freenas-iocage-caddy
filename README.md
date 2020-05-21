@@ -5,22 +5,22 @@ The aim is to develop a script to install Caddy V2 in a FreeNAS jail
 
 The centrepiece is a rc.d script, which supports default methods such as `service caddy stop` and `service caddy status`, but also includes a modifed `service caddy start` method to support the Caddy V2 executable as well as the following extra commands:
 
-service caddy reload - A config reload with zero downtime. More info at https://caddyserver.com/docs/command-line#caddy-reload
-service caddy validate - Check for a valid Caddyfile configuration. More info at https://caddyserver.com/docs/command-line#caddy-validate
+1. `service caddy reload` - A config reload with zero downtime. More info at https://caddyserver.com/docs/command-line#caddy-reload
+2. `service caddy validate` - Check for a valid Caddyfile configuration. More info at https://caddyserver.com/docs/command-line#caddy-validate
 
 Additional commands may be added at a later stage if deemed useful. 
 
 For other configurable script parameters, refer to the comments at the top of the rc.d script. At this stage, configurable script parameters include:
 
-caddy_enable - Set to enable caddy. The default is disabled.
-caddy_bin_path - location of the Caddy executable. The default is /usr/local/bin/caddy.
-caddy_config_path - location of the Caddyfile. The default is /usr/local/www/Caddyfile
+1. `caddy_enable` - Set to enable caddy. The default is disabled.
+2. `caddy_bin_path` - location of the Caddy executable. The default is /usr/local/bin/caddy.
+3. `caddy_config_path` - location of the Caddyfile. The default is /usr/local/www/Caddyfile
 
 To change the defaults add lines to /etc/rc.conf. For example:
-sysrc caddy_enable="YES"
-sysrc caddy_bin_path="/usr/local/sbin/caddy"
+`sysrc caddy_enable="YES"`
+`sysrc caddy_bin_path="/usr/local/sbin/caddy"`
 
-Additional configrable script parameters may be added at a later stage if deemed useful. 
+Additional configurable script parameters may be added at a later stage if deemed useful. 
 
 ### To Do
 
