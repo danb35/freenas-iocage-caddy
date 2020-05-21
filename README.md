@@ -5,7 +5,7 @@ The goal is to develop a script to install Caddy V2 in a FreeNAS jail
 
 #### 1. rc.d script
 
-This is an original work. The centrepiece is a rc.d script (in includes/caddy), which supports default methods such as `service caddy stop` and `service caddy status`, but also includes a modifed `service caddy start` method to support the Caddy V2 executable as well as the following extra commands:
+This is an original work. The centrepiece is an rc.d script (in includes/caddy), which supports default methods such as `service caddy stop` and `service caddy status`, but also includes a modifed `service caddy start` method to support the Caddy V2 executable as well as the following extra commands:
 
 1. `service caddy reload` - A config reload with zero downtime. More info at https://caddyserver.com/docs/command-line#caddy-reload
 2. `service caddy validate` - Check for a valid Caddyfile configuration. More info at https://caddyserver.com/docs/command-line#caddy-validate
