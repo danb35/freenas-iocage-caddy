@@ -69,4 +69,5 @@ The install script will mirror the majority of steps below, which are presently 
  1. Practical rc.d scripting https://www.freebsd.org/doc/en_US.ISO8859-1/articles/rc-scripting/
  2. Caddy V2 command line https://caddyserver.com/docs/command-line
  3. Caddy V2 release https://github.com/caddyserver/caddy/releases/tag/v2.0.0
+ 4. Reverse Proxy using Caddy V1 (with optional automatic TLS) https://www.ixsystems.com/community/resources/reverse-proxy-using-caddy-with-optional-automatic-tls.114/
 
