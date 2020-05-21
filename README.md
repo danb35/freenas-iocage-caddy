@@ -47,6 +47,7 @@ The install script will mimic the majority of steps below, which are presently e
  nano Caddyfile # Paste in the 'Hello World' text from includes/Caddyfile
 
 # Install the Caddy V2 executable
+  cd /usr/local/bin
   fetch https://github.com/caddyserver/caddy/releases/download/v2.0.0/caddy_2.0.0_freebsd_amd64.tar.gz
   tar -xzvf caddy_2.0.0_freebsd_amd64.tar.gz
   rm caddy_2.0.0_freebsd_amd64.tar.gz
