@@ -30,7 +30,7 @@ Additional configurable script parameters may be added at a later stage if deeme
 
 #### 1. Build an install script
 
-The install script will mirror the majority of steps below, which are presently executed manually.
+The install script will mimic the majority of steps below, which are presently executed manually.
  ```
 # Set up the jail
  iocage create --name="caddyv2" -r 11.3-RELEASE ip4_addr="vnet0|10.1.1.45/24" defaultrouter="10.1.1.1" boot="on" host_hostname="caddyv2" vnet="on"
