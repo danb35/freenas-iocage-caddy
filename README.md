@@ -28,9 +28,9 @@ Additional configurable script parameters may be added at a later stage if deeme
 
 ### To Do
 
-#### 1. Build the install script
+#### 1. Build an install script
 
-The install script will (eventually!) mirror the majority of steps below, which are presently executed manually.
+The install script will mirror the majority of steps below, which are presently executed manually.
  ```
 # Set up the jail
  iocage create --name="caddyv2" -r 11.3-RELEASE ip4_addr="vnet0|10.1.1.45/24" defaultrouter="10.1.1.1" boot="on" host_hostname="caddyv2" vnet="on"
@@ -60,7 +60,7 @@ The install script will (eventually!) mirror the majority of steps below, which 
  ```
  
  #### 2. Support TLS with DNS validation
- At present, only **No TLS** and **TLS with HTTP validation** have been considered.
+ At present, only **No TLS** and **TLS with HTTP validation** have been considered in the rc.d script.
  
  ### Known issues
  1. No support for automatic trust store installation on FreeBSD https://caddy.community/t/starting-with-caddy2-basic-caddyfile-trying-to-use-port-80/7473/7
