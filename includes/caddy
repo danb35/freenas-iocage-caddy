@@ -35,7 +35,7 @@ load_rc_config ${name}
 
 command="${caddy_bin_path}" 
 
-required_files="${caddy_config_path}"
+required_files="${caddy_config_path} ${caddy_bin_path}"
 
 caddy_start()
 {
