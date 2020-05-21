@@ -1,5 +1,5 @@
 # freenas-iocage-caddyv2
-The goal is to develop a script to install Caddy V2 in a FreeNAS jail
+The goal is to support Caddy V2 in a FreeNAS or FreeBSD jail
 
 ### Currently supported
 
