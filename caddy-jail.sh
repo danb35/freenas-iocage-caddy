@@ -32,14 +32,13 @@ NO_CERT=0
 JAILS_MOUNT=$(zfs get -H -o value mountpoint $(iocage get -p)/iocage)
 RELEASE=$(freebsd-version | sed "s/STABLE/RELEASE/g" | sed "s/-p[0-9]*//")
 
-# Check for nextcloud-config and set configuration
+# Check for caddy-config and set configuration
+SCRIPT=$(readlink -f "$0")
+SCRIPTPATH=$(dirname "${SCRIPT}")
 if ! [ -e "${SCRIPTPATH}/${CONFIG_NAME}" ]; then
   echo "${SCRIPTPATH}/${CONFIG_NAME} must exist."
   exit 1
 fi
-
-SCRIPT=$(readlink -f "$0")
-SCRIPTPATH=$(dirname "${SCRIPT}")
 . "${SCRIPTPATH}/${CONFIG_NAME}"
 INCLUDES_PATH="${SCRIPTPATH}"/includes
 
