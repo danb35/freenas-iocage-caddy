@@ -29,9 +29,6 @@ SELFSIGNED_CERT=0
 DNS_CERT=0
 NO_CERT=0
 
-JAILS_MOUNT=$(zfs get -H -o value mountpoint $(iocage get -p)/iocage)
-RELEASE=$(freebsd-version | sed "s/STABLE/RELEASE/g" | sed "s/-p[0-9]*//")
-
 # Check for caddy-config and set configuration
 SCRIPT=$(readlink -f "$0")
 SCRIPTPATH=$(dirname "${SCRIPT}")
@@ -41,6 +38,9 @@ if ! [ -e "${SCRIPTPATH}/${CONFIG_NAME}" ]; then
 fi
 . "${SCRIPTPATH}/${CONFIG_NAME}"
 INCLUDES_PATH="${SCRIPTPATH}"/includes
+
+JAILS_MOUNT=$(zfs get -H -o value mountpoint $(iocage get -p)/iocage)
+RELEASE=$(freebsd-version | sed "s/STABLE/RELEASE/g" | sed "s/-p[0-9]*//")
 
 # Check that necessary variables were set by nextcloud-config
 if [ -z "${JAIL_IP}" ]; then
@@ -78,23 +78,6 @@ if [ $STANDALONE_CERT -eq 1 ] && [ $DNS_CERT -eq 1 ] ; then
   exit 1
 fi
 
-if [ $DNS_CERT -eq 1 ] && [ -z "${DNS_PLUGIN}" ] ; then
-  echo "DNS_PLUGIN must be set to a supported DNS provider."
-  echo "See https://caddyserver.com/docs under the heading of \"DNS Providers\" for list."
-  echo "Be sure to omit the prefix of \"tls.dns.\"."
-  exit 1
-fi  
-#if [ $DNS_CERT -eq 1 ] && [ -z "${DNS_ENV}" ] ; then
-#  echo "DNS_ENV must be set to a your DNS provider\'s authentication credentials."
-#  echo "See https://caddyserver.com/docs under the heading of \"DNS Providers\" for more."
-#  exit 1
-#fi  
-
-#if [ $DNS_CERT -eq 1 ] ; then
-#  DL_FLAGS="tls.dns.${DNS_PLUGIN}"
-#  DNS_SETTING="dns ${DNS_PLUGIN}"
-#fi
-
 #####
 #
 # Jail Creation
@@ -111,9 +94,9 @@ cat <<__EOF__ >/tmp/pkg.json
 __EOF__
 
 # Create the jail and install previously listed packages
-#if ! iocage create --name "${JAIL_NAME}" -p /tmp/pkg.json -r "${RELEASE}" interfaces="${JAIL_INTERFACES}" ip4_addr="${INTERFACE}|${IP}/${NETMASK}" defaultrouter="${DEFAULT_GW_IP}" boot="on" host_hostname="${JAIL_NAME}" vnet="${VNET}"
-#then
-#	echo "Failed to create jail"
-#	exit 1
-#fi
+if ! iocage create --name "${JAIL_NAME}" -p /tmp/pkg.json -r "${RELEASE}" interfaces="${JAIL_INTERFACES}" ip4_addr="${INTERFACE}|${IP}/${NETMASK}" defaultrouter="${DEFAULT_GW_IP}" boot="on" host_hostname="${JAIL_NAME}" vnet="${VNET}"
+then
+	echo "Failed to create jail"
+	exit 1
+fi
 rm /tmp/pkg.json
