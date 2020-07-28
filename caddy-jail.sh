@@ -22,6 +22,7 @@ INTERFACE="vnet0"
 VNET="on"
 POOL_PATH=""
 JAIL_NAME="caddy"
+DNS_CERT=0
 CONFIG_NAME="caddy-config"
 
 # Check for caddy-config and set configuration
