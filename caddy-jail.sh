@@ -98,7 +98,7 @@ fi
 cat <<__EOF__ >/tmp/pkg.json
 	{
   "pkgs":[
-  "nano","bash","go"
+  "nano","bash","go","git"
   ]
 }
 __EOF__
