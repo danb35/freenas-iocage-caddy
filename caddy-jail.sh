@@ -63,6 +63,13 @@ if [ -z "${HOST_NAME}" ]; then
   exit 1
 fi
 
+if [ $DNS_CERT -eq 1 ] && [ -z "${DNS_PLUGIN}" ] ; then
+  echo "DNS_PLUGIN must be set to a supported DNS provider."
+  echo "See https://caddyserver.com/docs under the heading of \"DNS Providers\" for list."
+  echo "Be sure to omit the prefix of \"tls.dns.\"."
+  exit 1
+fi  
+
 # If CONFIG_PATH wasnn't set in nextcloud-config, set it
 if [ -z "${CONFIG_PATH}" ]; then
   CONFIG_PATH="${POOL_PATH}"/caddy/config
@@ -102,3 +109,18 @@ __EOF__
 #	exit 1
 #fi
 rm /tmp/pkg.json
+
+#####
+#
+# Directory Creation and Mounting
+#
+#####
+
+mkdir -p "${CONFIG_PATH}"
+
+iocage exec "${JAIL_NAME}" mkdir -p /mnt/includes
+iocage exec "${JAIL_NAME}" mkdir -p /usr/local/www
+#mkdir -p "${JAILS_MOUNT}"/jails/${JAIL_NAME}/root/mnt/includes
+
+iocage fstab -a "${JAIL_NAME}" "${CONFIG_PATH}" /usr/local/www nullfs rw 0 0
+iocage fstab -a "${JAIL_NAME}" "${INCLUDES_PATH}" /mnt/includes nullfs rw 0 0
