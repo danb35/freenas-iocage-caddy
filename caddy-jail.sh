@@ -98,7 +98,7 @@ fi
 cat <<__EOF__ >/tmp/pkg.json
 	{
   "pkgs":[
-  "nano"
+  "nano","bash","go"
   ]
 }
 __EOF__
@@ -125,3 +125,18 @@ iocage exec "${JAIL_NAME}" mkdir -p /usr/local/www
 
 iocage fstab -a "${JAIL_NAME}" "${CONFIG_PATH}" /usr/local/www nullfs rw 0 0
 iocage fstab -a "${JAIL_NAME}" "${INCLUDES_PATH}" /mnt/includes nullfs rw 0 0
+
+#####
+#
+# Additional Dependency installation
+#
+#####
+
+# Build xcaddy, use it to build Caddy
+iocage exec "${JAIL_NAME}" "go get -u github.com/caddyserver/xcaddy/cmd/xcaddy"
+iocage exec "${JAIL_NAME}" go build -o /usr/local/bin/xcaddy github.com/caddyserver/xcaddy/cmd/xcaddy
+if [ ${DNS_CERT} -eq 1 ]; then
+  iocage exec "${JAIL_NAME}" xcaddy build --output /usr/local/bin/caddy --with github.com/caddy-dns/"${DNS_PLUGIN}"
+else
+  iocage exec "${JAIL_NAME}" xcaddy build --output /usr/local/bin/caddy
+fi
