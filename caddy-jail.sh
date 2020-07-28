@@ -140,3 +140,11 @@ if [ ${DNS_CERT} -eq 1 ]; then
 else
   iocage exec "${JAIL_NAME}" xcaddy build --output /usr/local/bin/caddy
 fi
+
+# Copy and edit pre-written config file
+iocage exec "${JAIL_NAME}" cp -f /mnt/includes/caddy /usr/local/etc/rc.d/
+
+iocage exec "${JAIL_NAME}" sysrc caddy_enable="YES"
+iocage exec "${JAIL_NAME}" sysrc caddy_config="/usr/local/www/Caddyfile"
+
+iocage restart "${JAIL_NAME}"
