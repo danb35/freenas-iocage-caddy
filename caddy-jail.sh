@@ -32,6 +32,7 @@ JAILS_MOUNT=$(zfs get -H -o value mountpoint $(iocage get -p)/iocage)
 
 SCRIPT=$(readlink -f "$0")
 SCRIPTPATH=$(dirname "${SCRIPT}")
+. "${SCRIPTPATH}"/nextcloud-config
 INCLUDES_PATH="${SCRIPTPATH}"/includes
 
 RELEASE=$(freebsd-version | sed "s/STABLE/RELEASE/g" | sed "s/-p[0-9]*//")
