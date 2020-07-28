@@ -1,55 +1,47 @@
 #!/bin/sh
 #
+# $FreeBSD$
+#
+
 # PROVIDE: caddy
-# REQUIRE: NETWORKING
+# REQUIRE: LOGIN DAEMON NETWORKING
 # KEYWORD: shutdown
 
+# Add the following lines to /etc/rc.conf.local or /etc/rc.conf
+# to enable this service:
+# caddy_enable (bool):   Set to NO by default. Set it to YES to enable caddy.
 #
-# Add the following lines to /etc/rc.conf to enable caddy:
-# caddy_enable (bool):        Set to "NO" by default.
-#                             Set it to "YES" to enable caddy.
-#
-# caddy_bin_path (str):       Set to "/usr/local/bin/caddy" by default.
-#                             Provides the path to the caddy server executable
-#
-# caddy_config_path (str):    Set to "/usr/local/www/Caddyfile" by default.
-#                             Defines the path for the configuration file caddy will load on boot
-#
+# caddy_config (string): Optional full path for caddy config file
+# caddy_adapter (string):  Optional adapter type if the configuration is not in caddyfile format
+# caddy_extra_flags (string):  Optional flags passed to caddy start
+# caddy_logfile (string):     Set to "/var/log/caddy.log" by default.
+#                             Defines where the process log file is written, this is not a web access log
 
 . /etc/rc.subr
 
-name="caddy"
-rcvar="${name}_enable"
+name=caddy
+rcvar=caddy_enable
+desc="Caddy 2 is a powerful, enterprise-ready, open source web server with automatic HTTPS written in Go"
 
-extra_commands="reload validate"
+load_rc_config $name
 
-start_cmd="${name}_start"
-reload_cmd="${name}_reload"
-validate_cmd="${name}_validate"
+# Defaults
+: ${caddy_enable:=NO}
+: ${caddy_config:="/usr/local/etc/Caddyfile"}
+: ${caddy_adapter:=caddyfile}
+: ${caddy_extra_flags:=""}
+: ${caddy_logfile="/var/log/caddy.log"}
 
-load_rc_config ${name}
+command="/usr/local/bin/${name}"
+caddy_flags="--config ${caddy_config} --adapter ${caddy_adapter}"
+pidfile="/var/run/${name}.pid"
 
-: ${caddy_enable:="NO"}
-: ${caddy_bin_path="/usr/local/bin/caddy"}
-: ${caddy_config_path="/usr/local/www/Caddyfile"}
+required_files="${caddy_config} ${command}"
 
-command="${caddy_bin_path}" 
-
-required_files="${caddy_config_path} ${caddy_bin_path}"
-
-caddy_start()
-{
-  $command start --config ${caddy_config_path}
-}
-
-caddy_reload()
-{
-  $command reload --config ${caddy_config_path}
-}
-
-caddy_validate()
-{
-  $command validate --config ${caddy_config_path}
-}
+# Extra Commands
+extra_commands="validate reload"
+start_cmd="${command} start ${caddy_flags} ${caddy_extra_flags} --pidfile ${pidfile} >> ${caddy_logfile} 2>&1"
+validate_cmd="${command} validate ${caddy_flags}"
+reload_cmd="${command} reload ${caddy_flags}"
 
 run_rc_command "$1"

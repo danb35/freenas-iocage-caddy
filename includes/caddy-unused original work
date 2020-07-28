@@ -1,0 +1,55 @@
+#!/bin/sh
+#
+# PROVIDE: caddy
+# REQUIRE: NETWORKING
+# KEYWORD: shutdown
+
+#
+# Add the following lines to /etc/rc.conf to enable caddy:
+# caddy_enable (bool):        Set to "NO" by default.
+#                             Set it to "YES" to enable caddy.
+#
+# caddy_bin_path (str):       Set to "/usr/local/bin/caddy" by default.
+#                             Provides the path to the caddy server executable
+#
+# caddy_config_path (str):    Set to "/usr/local/www/Caddyfile" by default.
+#                             Defines the path for the configuration file caddy will load on boot
+#
+
+. /etc/rc.subr
+
+name="caddy"
+rcvar="${name}_enable"
+
+extra_commands="reload validate"
+
+start_cmd="${name}_start"
+reload_cmd="${name}_reload"
+validate_cmd="${name}_validate"
+
+load_rc_config ${name}
+
+: ${caddy_enable:="NO"}
+: ${caddy_bin_path="/usr/local/bin/caddy"}
+: ${caddy_config_path="/usr/local/www/Caddyfile"}
+
+command="${caddy_bin_path}" 
+
+required_files="${caddy_config_path} ${caddy_bin_path}"
+
+caddy_start()
+{
+  $command start --config ${caddy_config_path}
+}
+
+caddy_reload()
+{
+  $command reload --config ${caddy_config_path}
+}
+
+caddy_validate()
+{
+  $command validate --config ${caddy_config_path}
+}
+
+run_rc_command "$1"
