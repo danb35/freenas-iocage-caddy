@@ -37,8 +37,8 @@ INCLUDES_PATH="${SCRIPTPATH}"/includes
 RELEASE=$(freebsd-version | sed "s/STABLE/RELEASE/g" | sed "s/-p[0-9]*//")
 
 # Check for nextcloud-config and set configuration
-if ! [ -e "${SCRIPTPATH}"/nextcloud-config ]; then
-  echo "${SCRIPTPATH}/nextcloud-config must exist."
+if ! [ -e "${SCRIPTPATH}"/caddy-config ]; then
+  echo "${SCRIPTPATH}/caddy-config must exist."
   exit 1
 fi
 
