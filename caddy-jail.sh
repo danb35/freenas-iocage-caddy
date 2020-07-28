@@ -22,6 +22,7 @@ INTERFACE="vnet0"
 VNET="on"
 POOL_PATH=""
 JAIL_NAME="caddy"
+CONFIG_NAME="caddy-config"
 
 STANDALONE_CERT=0
 SELFSIGNED_CERT=0
@@ -29,19 +30,18 @@ DNS_CERT=0
 NO_CERT=0
 
 JAILS_MOUNT=$(zfs get -H -o value mountpoint $(iocage get -p)/iocage)
-
-SCRIPT=$(readlink -f "$0")
-SCRIPTPATH=$(dirname "${SCRIPT}")
-. "${SCRIPTPATH}"/nextcloud-config
-INCLUDES_PATH="${SCRIPTPATH}"/includes
-
 RELEASE=$(freebsd-version | sed "s/STABLE/RELEASE/g" | sed "s/-p[0-9]*//")
 
 # Check for nextcloud-config and set configuration
-if ! [ -e "${SCRIPTPATH}"/caddy-config ]; then
-  echo "${SCRIPTPATH}/caddy-config must exist."
+if ! [ -e "${SCRIPTPATH}/${CONFIG_NAME}" ]; then
+  echo "${SCRIPTPATH}/${CONFIG_NAME} must exist."
   exit 1
 fi
+
+SCRIPT=$(readlink -f "$0")
+SCRIPTPATH=$(dirname "${SCRIPT}")
+. "${SCRIPTPATH}/${CONFIG_NAME}"
+INCLUDES_PATH="${SCRIPTPATH}"/includes
 
 # Check that necessary variables were set by nextcloud-config
 if [ -z "${JAIL_IP}" ]; then
