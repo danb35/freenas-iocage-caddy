@@ -24,11 +24,6 @@ POOL_PATH=""
 JAIL_NAME="caddy"
 CONFIG_NAME="caddy-config"
 
-STANDALONE_CERT=0
-SELFSIGNED_CERT=0
-DNS_CERT=0
-NO_CERT=0
-
 # Check for caddy-config and set configuration
 SCRIPT=$(readlink -f "$0")
 SCRIPTPATH=$(dirname "${SCRIPT}")
@@ -67,15 +62,22 @@ if [ -z "${HOST_NAME}" ]; then
   echo 'Configuration error: HOST_NAME must be set'
   exit 1
 fi
-if [ $STANDALONE_CERT -eq 0 ] && [ $DNS_CERT -eq 0 ] && [ $NO_CERT -eq 0 ] && [ $SELFSIGNED_CERT -eq 0 ]; then
-  echo 'Configuration error: Either STANDALONE_CERT, DNS_CERT, NO_CERT,'
-  echo 'or SELFSIGNED_CERT must be set to 1.'
-  exit 1
+
+# If CONFIG_PATH wasnn't set in nextcloud-config, set it
+if [ -z "${CONFIG_PATH}" ]; then
+  CONFIG_PATH="${POOL_PATH}"/caddy/config
 fi
-if [ $STANDALONE_CERT -eq 1 ] && [ $DNS_CERT -eq 1 ] ; then
-  echo 'Configuration error: Only one of STANDALONE_CERT and DNS_CERT'
-  echo 'may be set to 1.'
-  exit 1
+
+# Extract IP and netmask, sanity check netmask
+IP=$(echo ${JAIL_IP} | cut -f1 -d/)
+NETMASK=$(echo ${JAIL_IP} | cut -f2 -d/)
+if [ "${NETMASK}" = "${IP}" ]
+then
+  NETMASK="24"
+fi
+if [ "${NETMASK}" -lt 8 ] || [ "${NETMASK}" -gt 30 ]
+then
+  NETMASK="24"
 fi
 
 #####
