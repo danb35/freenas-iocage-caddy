@@ -23,7 +23,7 @@ INTERFACE="vnet0"
 VNET="on"
 POOL_PATH=""
 JAIL_NAME="caddy"
-DNS_CERT=0
+DNS_PLUGIN=""
 CONFIG_NAME="caddy-config"
 
 # Check for caddy-config and set configuration
@@ -64,13 +64,6 @@ if [ -z "${HOST_NAME}" ]; then
   echo 'Configuration error: HOST_NAME must be set'
   exit 1
 fi
-
-if [ $DNS_CERT -eq 1 ] && [ -z "${DNS_PLUGIN}" ] ; then
-  echo "DNS_PLUGIN must be set to a supported DNS provider."
-  echo "See https://caddyserver.com/docs under the heading of \"DNS Providers\" for list."
-  echo "Be sure to omit the prefix of \"tls.dns.\"."
-  exit 1
-fi  
 
 # If CONFIG_PATH wasn't set in nextcloud-config, set it
 if [ -z "${CONFIG_PATH}" ]; then
@@ -136,7 +129,7 @@ iocage fstab -a "${JAIL_NAME}" "${INCLUDES_PATH}" /mnt/includes nullfs rw 0 0
 # Build xcaddy, use it to build Caddy
 iocage exec "${JAIL_NAME}" "go get -u github.com/caddyserver/xcaddy/cmd/xcaddy"
 iocage exec "${JAIL_NAME}" go build -o /usr/local/bin/xcaddy github.com/caddyserver/xcaddy/cmd/xcaddy
-if [ ${DNS_CERT} -eq 1 ]; then
+if [ -n "${DNS_PLUGIN}" ]; then
   iocage exec "${JAIL_NAME}" xcaddy build --output /usr/local/bin/caddy --with github.com/caddy-dns/"${DNS_PLUGIN}"
 else
   iocage exec "${JAIL_NAME}" xcaddy build --output /usr/local/bin/caddy
