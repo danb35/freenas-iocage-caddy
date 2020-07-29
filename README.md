@@ -60,20 +60,33 @@ First, you must own or control a real Internet domain name. This script obtains 
 Second, one of these two conditions must be met in order for Let's Encrypt to validate your control over the domain name:
 
 You must be able and willing to open ports 80 and 443 from the entire Internet to the jail, and leave them open.
-DNS hosting for the domain name needs to be with a provider that Caddy supports. At this time, only Cloudflare is supported.
-Cloudflare provides DNS hosting at no cost, and it's well-supported by Caddy. Cloudflare also provides Dynamic DNS service, if your desired Dynamic DNS client supports their API. If it doesn't, DNS-O-Matic is a Dynamic DNS provider that will interface with many DNS hosts including Cloudflare, has a much simpler API that's more widely supported, and is also free of charge.
+DNS hosting for the domain name needs to be with a provider that Caddy supports. 
 
-This document previously had a discussion of using Freenom, Cloudflare, and DNS-O-Matic to give you free dynamic DNS and certificate validation with a free domain. However, due to abuse, Cloudflare has removed the ability to use its API with free domains when using Cloudflare's free plan. For this to work, you'll need to pay either for Cloudflare or for a domain (and the latter is likely less expensive). If you want to use a Freenom domain, you'll need to be able and willing to open ports 80 and 443 to your jail, so you can get your certificate without using DNS validation.
+For example, Cloudflare provides DNS hosting at no cost, and it's well-supported by Caddy. Cloudflare also provides Dynamic DNS service, if your desired Dynamic DNS client supports their API. If it doesn't, DNS-O-Matic is a Dynamic DNS provider that will interface with many DNS hosts including Cloudflare, has a much simpler API that's more widely supported, and is also free of charge.
 
-If you aren't able or willing to obtain a certificate from Let's Encrypt, this script also supports configuring Caddy with a self-signed certificate, or with no certificate (and thus no HTTPS) at all.
+Due to abuse, Cloudflare has removed the ability to use its API with free domains when using Cloudflare's free plan. For this to work, you'll need to pay either for Cloudflare or for a domain (and the latter is likely less expensive). If you want to use a free domain e.g. a Freenom domain, you'll need to be able and willing to open ports 80 and 443 to your jail, so you can get your certificate without using DNS validation.
+
+If you aren't able or willing to obtain a certificate from Let's Encrypt, Caddy can be configured with a self-signed certificate, or with no certificate (and thus no HTTPS) at all.
 ### No TLS
 
 ### TLS with HTTP validation
 
 ### TLS with DNS validation
 
+### Test
+
+:pushpin: *Probably a good idea to make reference to validate and reload commands*
+
+
+
 ## Limitations
+:pushpin: *Is this still required? This may no longer be true with Caddy V2. Probably better to leave this section out altogether, at least for the moment.*
+
+Some apps are not amenable to being served over a reverse proxy, or at least with the configuration described above. Two such apps appear to be Duplicati and Urbackup. If your app doesn't work, try doing a web search for "(app name) reverse proxy" to see if (1) it's possible at all, and (2) if any special settings are required.
 
 ## To Do
+I'd appreciate any suggestions (or, better yet, pull requests) to improve the various config files I'm using. If there are changes to settings or organization that could improve performance, reliability, or security, I'd like to hear about them.
 
 ## Support and Discussion
+
+:pushpin: *To avoid blurrig the lines. it might be an idea to make it clear that support is limited to getting the script working and for showcasing working code blocks that may be of interest to other community members. For help developing Caddyfile code blocks, Caddy users should refer to the [Caddy forum](https://caddy.community/) for expert advice.*  
