@@ -68,16 +68,19 @@ Due to abuse, Cloudflare has removed the ability to use its API with free domain
 
 If you aren't able or willing to obtain a certificate from Let's Encrypt, Caddy can be configured with a self-signed certificate, or with no certificate (and thus no HTTPS) at all.
 ### No TLS
+:pushpin: *Blah...*
+:pushpin: *Does something need to be said about using self-signed certs with Caddy?* 
 
 ### TLS with HTTP validation
+:pushpin: *Blah, blah...*
 
 ### TLS with DNS validation
+:pushpin: *Blah, blah, blah...*
 
 ### Test
+:pushpin: *Probably a good idea to make reference here to validate and reload commands e.g.*
 
-:pushpin: *Probably a good idea to make reference to validate and reload commands*
-
-
+You can validate your Caddyfile changes with `service caddy validate`. To commit the changes gracefully and with zero downtime, use `service caddy reload` instead of `service caddy restart'. 
 
 ## Limitations
 :pushpin: *Is this still required? This may no longer be true with Caddy V2. Probably better to leave this section out altogether, at least for the moment.*
@@ -89,4 +92,4 @@ I'd appreciate any suggestions (or, better yet, pull requests) to improve the va
 
 ## Support and Discussion
 
-:pushpin: *To avoid blurrig the lines. it might be an idea to make it clear that support is limited to getting the script working and for showcasing working code blocks that may be of interest to other community members. For help developing Caddyfile code blocks, Caddy users should refer to the [Caddy forum](https://caddy.community/) for expert advice.*  
+:pushpin: *To avoid blurring the lines. it might be an idea to make it clear that support is limited to getting the script working. For help developing and debugging Caddyfile code blocks, Caddy users should refer to the [Caddy forum](https://caddy.community/) for expert advice. The discussion area could also be used for showcasing working code blocks (with a link to a Caddy forum thread for reference where appropriate). This will be of value to other FreeNAS community members*  
