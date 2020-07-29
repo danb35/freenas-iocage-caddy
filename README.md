@@ -36,12 +36,13 @@ In addition, there are some other options which have sensible defaults, but can 
 - CONFIG_PATH: This is the path to your Caddyfile, defaults to $POOL_PATH/caddy.
 - INTERFACE: The network interface to use for the jail. Defaults to vnet0.
 - VNET: Whether to use the iocage virtual network stack. Defaults to on.
-- DNS_PLUGIN: DNS_PLUGIN contains the name of the DNS validation plugin you'll use with Caddy to validate domain control. 
-Visit the Caddy download page to see the DNS authentication plugins currently available. To build Caddy with your desired plugin, use the last part of the "Package" on that page as DNS_PLUGIN in your nextcloud-config file. E.g., if the package name is github.com/caddy-dns/cloudflare, you'd set DNS_PLUGIN=cloudflare. From that page, there are also links to the documentation for each plugin, which will describe what credentials are needed. If your provider needs only an API token (as is the case with Cloudflare, and apparently with DNSPod), you'll likely be able to set DNS_TOKEN=long_api_token in the nextcloud-config file and not need to do anything else. If your provider requires different credentials, you'll need to modify the Caddyfile to account for them.
+- DNS_PLUGIN: DNS_PLUGIN contains the name of the DNS validation plugin you'll use with Caddy to validate domain control. Visit the Caddy download page to see the DNS authentication plugins currently available. To build Caddy with your desired plugin, use the last part of the "Package" on that page as DNS_PLUGIN in your nextcloud-config file. E.g., if the package name is github.com/caddy-dns/cloudflare, you'd set DNS_PLUGIN=cloudflare. From that page, there are also links to the documentation for each plugin, which will describe what credentials are needed.
 
 Also, HOST_NAME needs to resolve to your jail from inside your network. You'll probably need to configure this on your router. If you're unable to do so, you can edit the hosts file on your client computers to achieve this result.
 
 ### Execution
+
+
 
 ### Test
 
