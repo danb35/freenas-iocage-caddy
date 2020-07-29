@@ -14,7 +14,7 @@ Although not required, it's recommended to create a Dataset named `nextcloud` on
 
 ### Installation
 
-Download the repository to a convenient directory on your FreeNAS system by changing to that directory and running git clone https://github.com/danb35/freenas-iocage-caddy. :pushpin: *For the moment, git clone https://github.com/basilhendroff/freenas-iocage-caddy].* Then change into the new freenas-iocage-caddy directory and create a file called caddy-config with your favorite text editor. In its minimal form, it would look like this:
+Download the repository to a convenient directory on your FreeNAS system by changing to that directory and running git clone https://github.com/danb35/freenas-iocage-caddy. :pushpin: *For the moment, git clone https://github.com/basilhendroff/freenas-iocage-caddy.* Then change into the new freenas-iocage-caddy directory and create a file called caddy-config with your favorite text editor. In its minimal form, it would look like this:
 
 ```
 JAIL_IP="192.168.1.199"
@@ -32,6 +32,14 @@ Many of the options are self-explanatory, and all should be adjusted to suit you
 - DNS_CERT indicate use of DNS validation for Let's Encrypt. If used, it must be set to 1.
 - DNS_PLUGIN: If DNS_CERT is set, DNS_PLUGIN must contain the name of the DNS validation plugin you'll use with Caddy to validate domain control. At this time, the only valid value is cloudflare.
 - DNS_TOKEN: If DNS_CERT is set, this must be set to a properly-scoped Cloudflare API Token. You will need to create an API token through Cloudflare's dashboard, which must have "Zone / Zone / Read" and "Zone / DNS / Edit" permissions on the zone (i.e., the domain) you're using for your installation. See [this documentation](https://github.com/libdns/cloudflare) for further details.
+
+In addition, there are some other options which have sensible defaults, but can be adjusted if needed. These are:
+
+- JAIL_NAME: The name of the jail, defaults to "caddy"
+- CONFIG_PATH: This is the path to your Caddyfile, defaults to $POOL_PATH/caddy.
+- INTERFACE: The network interface to use for the jail. Defaults to vnet0.
+- VNET: Whether to use the iocage virtual network stack. Defaults to on.
+CERT_EMAIL is the email address Let's Encrypt will use to notify you of certificate expiration, or for occasional other important matters. This is optional. If you are using Let's Encrypt, though, it should be set to a valid address for the system admin.
 
 ### Execution
 
