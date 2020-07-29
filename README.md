@@ -50,9 +50,22 @@ Once you've downloaded the script and prepared the configuration file, run this 
 To test your installation, enter your jail IP address and port 2020 e.g. `192.168.1.199:2020` in a browser. If the installation was successful, the message *Hello, world!* should be displayed. 
 
 ## The Caddyfile
+Caddy looks for its configuration in the Caddyfile. Its syntax is fairly simple, and is fully documented in the [Caddy Docs](https://caddyserver.com/docs/). I'll discuss a few scenarios with examples of the Caddyfile below.
 
 ### Prerequisites (Let's Encrypt)
+Caddy works best when your installation is able to obtain a certificate from Let's Encrypt. When you use it this way, Caddy is able to handle all of the TLS-related configuration for you, obtain and renew certificates automatically, etc. In order for this to happen, you must meet the two requirements below:
 
+First, you must own or control a real Internet domain name. This script obtains a TLS encryption certificate from Let's Encrypt, who will only issue for public domain names. Thus, domains like cloud.local, mycloud.lan, or nextcloud.home won't work. Domains can be very inexpensive, and in some cases, they can be free. Freenom, for example, provides domains for free if you jump through the right hoops. EasyDNS is a fine domain registrar for paid domains, costing roughly US$15 per year (which varies slightly with the top-level domain).
+
+Second, one of these two conditions must be met in order for Let's Encrypt to validate your control over the domain name:
+
+You must be able and willing to open ports 80 and 443 from the entire Internet to the jail, and leave them open.
+DNS hosting for the domain name needs to be with a provider that Caddy supports. At this time, only Cloudflare is supported.
+Cloudflare provides DNS hosting at no cost, and it's well-supported by Caddy. Cloudflare also provides Dynamic DNS service, if your desired Dynamic DNS client supports their API. If it doesn't, DNS-O-Matic is a Dynamic DNS provider that will interface with many DNS hosts including Cloudflare, has a much simpler API that's more widely supported, and is also free of charge.
+
+This document previously had a discussion of using Freenom, Cloudflare, and DNS-O-Matic to give you free dynamic DNS and certificate validation with a free domain. However, due to abuse, Cloudflare has removed the ability to use its API with free domains when using Cloudflare's free plan. For this to work, you'll need to pay either for Cloudflare or for a domain (and the latter is likely less expensive). If you want to use a Freenom domain, you'll need to be able and willing to open ports 80 and 443 to your jail, so you can get your certificate without using DNS validation.
+
+If you aren't able or willing to obtain a certificate from Let's Encrypt, this script also supports configuring Caddy with a self-signed certificate, or with no certificate (and thus no HTTPS) at all.
 ### No TLS
 
 ### TLS with HTTP validation
