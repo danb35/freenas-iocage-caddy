@@ -93,3 +93,5 @@ I'd appreciate any suggestions (or, better yet, pull requests) to improve the va
 ## Support and Discussion
 
 :pushpin: *To avoid blurring the lines. it might be an idea to make it clear that support is limited to getting the script working. For help developing and debugging Caddyfile code blocks, Caddy users should refer to the [Caddy forum](https://caddy.community/) for expert advice. The discussion area could also be used for showcasing working code blocks (with a link to a Caddy forum thread for reference where appropriate). This will be of value to other FreeNAS community members*  
+
+Questions or issues about this resource can be raised in this forum thread.
