@@ -9,16 +9,20 @@ Script to install Caddy V2 in a FreeNAS jail
 
 ### Installation
 
+### Execution
+
 ### Test
 
-### The Caddyfile
+## The Caddyfile
 
-#### No TLS
+### No TLS
 
-#### TLS with HTTP validation
+### TLS with HTTP validation
 
-#### TLS with DNS validation
+### TLS with DNS validation
 
-### Limitations
+## Limitations
 
-### Support and Discussion
+## To Do
+
+## Support and Discussion
