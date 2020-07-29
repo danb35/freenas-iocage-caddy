@@ -24,16 +24,16 @@ VNET="on"
 POOL_PATH=""
 JAIL_NAME="caddy"
 DNS_CERT=0
-CONFIG_NAME="caddy-config"
+SCRIPTNAME="caddy-config"
 
 # Check for caddy-config and set configuration
 SCRIPT=$(readlink -f "$0")
 SCRIPTPATH=$(dirname "${SCRIPT}")
-if ! [ -e "${SCRIPTPATH}/${CONFIG_NAME}" ]; then
-  echo "${SCRIPTPATH}/${CONFIG_NAME} must exist."
+if ! [ -e "${SCRIPTPATH}/${SCRIPTNAME}" ]; then
+  echo "${SCRIPTPATH}/${SCRIPTNAME} must exist."
   exit 1
 fi
-. "${SCRIPTPATH}/${CONFIG_NAME}"
+. "${SCRIPTPATH}/${SCRIPTNAME}"
 INCLUDES_PATH="${SCRIPTPATH}"/includes
 
 JAILS_MOUNT=$(zfs get -H -o value mountpoint $(iocage get -p)/iocage)
