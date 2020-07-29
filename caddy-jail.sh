@@ -1,6 +1,7 @@
 #!/bin/sh
 # Build an iocage jail under FreeNAS 11.3-12.0 using the current release of Caddy
-# git clone https://github.com/basilhendroff/freenas-iocage-caddyv2
+# https://github.com/danb35/freenas-iocage-caddy
+# (Temporary: git clone https://github.com/basilhendroff/freenas-iocage-caddy)
 
 # Check for root privileges
 if ! [ $(id -u) = 0 ]; then
