@@ -14,7 +14,7 @@ Although not required, it's recommended to create a Dataset named `nextcloud` on
 
 ### Installation
 
-Download the repository to a convenient directory on your FreeNAS system by changing to that directory and running git clone https://github.com/danb35/freenas-iocage-caddy. :pushpin: *For the moment, git clone https://github.com/basilhendroff/freenas-iocage-caddy]* Then change into the new freenas-iocage-caddy directory and create a file called caddy-config with your favorite text editor. In its minimal form, it would look like this:
+Download the repository to a convenient directory on your FreeNAS system by changing to that directory and running git clone https://github.com/danb35/freenas-iocage-caddy. :pushpin: *For the moment, git clone https://github.com/basilhendroff/freenas-iocage-caddy].* Then change into the new freenas-iocage-caddy directory and create a file called caddy-config with your favorite text editor. In its minimal form, it would look like this:
 
 ```
 JAIL_IP="192.168.1.199"
