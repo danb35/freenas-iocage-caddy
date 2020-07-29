@@ -64,7 +64,7 @@ DNS hosting for the domain name needs to be with a provider that Caddy supports.
 
 For example, Cloudflare provides DNS hosting at no cost, and it's well-supported by Caddy. Cloudflare also provides Dynamic DNS service, if your desired Dynamic DNS client supports their API. If it doesn't, DNS-O-Matic is a Dynamic DNS provider that will interface with many DNS hosts including Cloudflare, has a much simpler API that's more widely supported, and is also free of charge.
 
-Due to abuse, Cloudflare has removed the ability to use its API with free domains when using Cloudflare's free plan. For this to work, you'll need to pay either for Cloudflare or for a domain (and the latter is likely less expensive). If you want to use a free domain e.g. a Freenom domain, you'll need to be able and willing to open ports 80 and 443 to your jail, so you can get your certificate without using DNS validation.
+Due to abuse, Cloudflare has removed the ability to use its API with free domains when using Cloudflare's free plan. For this to work, you'll need to pay either for Cloudflare or for a domain (and the latter is likely less expensive). If you want to use a Freenom domain, you'll need to be able and willing to open ports 80 and 443 to your jail, so you can get your certificate without using DNS validation.
 
 If you aren't able or willing to obtain a certificate from Let's Encrypt, Caddy can be configured with a self-signed certificate, or with no certificate (and thus no HTTPS) at all.
 ### No TLS
