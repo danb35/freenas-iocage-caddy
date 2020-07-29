@@ -43,7 +43,7 @@ Also, HOST_NAME needs to resolve to your jail from inside your network. You'll p
 
 ### Execution
 
-Once you've downloaded the script and prepared the configuration file, run this script (`./nextcloud-jail.sh`). The script will run for several minutes. When it finishes, your jail will be created and Caddy will be installed.
+Once you've downloaded the script and prepared the configuration file, run this script (`./caddy-jail.sh`). The script will run for several minutes. When it finishes, your jail will be created and Caddy will be installed.
 
 ### Test
 
