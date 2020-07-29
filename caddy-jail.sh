@@ -72,9 +72,9 @@ if [ $DNS_CERT -eq 1 ] && [ -z "${DNS_PLUGIN}" ] ; then
   exit 1
 fi  
 
-# If CONFIG_PATH wasnn't set in nextcloud-config, set it
+# If CONFIG_PATH wasn't set in nextcloud-config, set it
 if [ -z "${CONFIG_PATH}" ]; then
-  CONFIG_PATH="${POOL_PATH}"/caddy/config
+  CONFIG_PATH="${POOL_PATH}"/caddy
 fi
 
 # Extract IP and netmask, sanity check netmask
@@ -142,7 +142,7 @@ else
   iocage exec "${JAIL_NAME}" xcaddy build --output /usr/local/bin/caddy
 fi
 
-# Copy and edit pre-written config files
+# Copy pre-written config files
 iocage exec "${JAIL_NAME}" cp -f /mnt/includes/caddy /usr/local/etc/rc.d/
 iocage exec "${JAIL_NAME}" cp -f /mnt/includes/Caddyfile /usr/local/www/Caddyfile
 
