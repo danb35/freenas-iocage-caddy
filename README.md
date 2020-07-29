@@ -11,7 +11,7 @@ Many users install a variety of web applications in jails on their FreeNAS serve
 
 :pushpin: *In this implementation, I've kept Caddyfile outside the jail in /caddy. I wasn't sure whether it might be interesting or useful to, say, keep the certificates outside the jail as well. I'll leave this for you to ponder.*
 
-Although not required, it's recommended to create a Dataset named `nextcloud` on your main storage pool. If this is not present, a directory `/nextcloud` will be created in `$POOL_PATH`.
+Although not required, it's recommended to create a Dataset named `caddy` on your main storage pool. If this is not present, a directory `/caddy` will be created in `$POOL_PATH`.
 
 ### Installation
 
