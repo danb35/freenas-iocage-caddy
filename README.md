@@ -47,7 +47,7 @@ Once you've downloaded the script and prepared the configuration file, run this 
 
 ### Test
 
-To test your installation, enter your jail IP address and port 2020 e.g. `192.168.1.199:2020` in a browser. If the installation was successful, the message *Hello, world!* should be displayed. 
+To test your installation, enter your Caddy jail IP address and port 2020 e.g. `192.168.1.199:2020` in a browser. If the installation was successful, the message *Hello, world!* should be displayed. 
 
 ## The Caddyfile
 Caddy looks for its configuration in the Caddyfile. Its syntax is fairly simple, and is fully documented in the [Caddy Docs](https://caddyserver.com/docs/). I'll discuss a few scenarios with examples of the Caddyfile below.
