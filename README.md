@@ -8,13 +8,13 @@ This script will work with FreeNAS 11.3, and it should also work with TrueNAS CO
 
 ### Prerequisites
 
-:pushpin: *In this implementation, I've kept Caddyfile outside the jail in /caddy. I wasn't sure whether it might be interesting or useful to, say, keep the certificates outside the jail as well. I'll leave this you to ponder.*
+:pushpin: *In this implementation, I've kept Caddyfile outside the jail in /caddy. I wasn't sure whether it might be interesting or useful to, say, keep the certificates outside the jail as well. I'll leave this you to ponder.* :pushpin:
 
 Although not required, it's recommended to create a Dataset named `nextcloud` on your main storage pool. If this is not present, a directory `/nextcloud` will be created in `$POOL_PATH`.
 
 ### Installation
 
-Download the repository to a convenient directory on your FreeNAS system by changing to that directory and running git clone https://github.com/danb35/freenas-iocage-caddy *[For the moment, git clone https://github.com/basilhendroff/freenas-iocage-caddy]*. Then change into the new freenas-iocage-caddy directory and create a file called caddy-config with your favorite text editor. In its minimal form, it would look like this:
+Download the repository to a convenient directory on your FreeNAS system by changing to that directory and running git clone https://github.com/danb35/freenas-iocage-caddy. :pushpin: *For the moment, git clone https://github.com/basilhendroff/freenas-iocage-caddy]* :pushpin: Then change into the new freenas-iocage-caddy directory and create a file called caddy-config with your favorite text editor. In its minimal form, it would look like this:
 
 ```
 JAIL_IP="192.168.1.199"
