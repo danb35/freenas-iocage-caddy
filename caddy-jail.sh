@@ -123,12 +123,28 @@ iocage fstab -a "${JAIL_NAME}" "${INCLUDES_PATH}" /mnt/includes nullfs rw 0 0
 #####
 
 # Build xcaddy, use it to build Caddy
-iocage exec "${JAIL_NAME}" "go get -u github.com/caddyserver/xcaddy/cmd/xcaddy"
-iocage exec "${JAIL_NAME}" go build -o /usr/local/bin/xcaddy github.com/caddyserver/xcaddy/cmd/xcaddy
+if ! iocage exec "${JAIL_NAME}" "go get -u github.com/caddyserver/xcaddy/cmd/xcaddy"
+then
+  echo "Failed to get xcaddy, terminating."
+  exit 1
+fi
+if ! iocage exec "${JAIL_NAME}" go build -o /usr/local/bin/xcaddy github.com/caddyserver/xcaddy/cmd/xcaddy
+then
+  echo "Failed to build xcaddy, terminating."
+  exit 1
+fi
 if [ -n "${DNS_PLUGIN}" ]; then
-  iocage exec "${JAIL_NAME}" xcaddy build --output /usr/local/bin/caddy --with github.com/caddy-dns/"${DNS_PLUGIN}"
+  if ! iocage exec "${JAIL_NAME}" xcaddy build --output /usr/local/bin/caddy --with github.com/caddy-dns/"${DNS_PLUGIN}"
+  then
+    echo "Failed to build Caddy with ${DNS_PLUGIN} plugin, terminating."
+    exit 1
+  fi  
 else
-  iocage exec "${JAIL_NAME}" xcaddy build --output /usr/local/bin/caddy
+  if ! iocage exec "${JAIL_NAME}" xcaddy build --output /usr/local/bin/caddy
+  then
+    echo "Failed to build Caddy without plugin, terminating."
+    exit 1
+  fi  
 fi
 
 # Copy pre-written config files
