@@ -62,7 +62,7 @@ fi
 
 # If CONFIG_PATH wasn't set in nextcloud-config, set it
 if [ -z "${CONFIG_PATH}" ]; then
-  CONFIG_PATH="${POOL_PATH}"/caddy
+  CONFIG_PATH="${POOL_PATH}"/apps/caddy
 fi
 
 # Extract IP and netmask, sanity check netmask
@@ -110,7 +110,6 @@ mkdir -p "${CONFIG_PATH}"
 
 iocage exec "${JAIL_NAME}" mkdir -p /mnt/includes
 iocage exec "${JAIL_NAME}" mkdir -p /usr/local/www
-#mkdir -p "${JAILS_MOUNT}"/jails/${JAIL_NAME}/root/mnt/includes
 
 iocage fstab -a "${JAIL_NAME}" "${CONFIG_PATH}" /usr/local/www nullfs rw 0 0
 iocage fstab -a "${JAIL_NAME}" "${INCLUDES_PATH}" /mnt/includes nullfs rw 0 0
@@ -147,8 +146,8 @@ else
 fi
 
 # Copy pre-written config files
-iocage exec "${JAIL_NAME}" cp -f /mnt/includes/caddy /usr/local/etc/rc.d/
-iocage exec "${JAIL_NAME}" [ ! -f "/mnt/tank/caddy/Caddyfile" ] && cp -f freenas-iocage-caddy/includes/Caddyfile /mnt/tank/caddy/Caddyfile
+iocage exec "${JAIL_NAME}" cp /mnt/includes/caddy /usr/local/etc/rc.d/
+iocage exec "${JAIL_NAME}" cp "${INCLUDES_PATH}"/Caddyfile /usr/local/www/
 
 iocage exec "${JAIL_NAME}" sysrc caddy_enable="YES"
 iocage exec "${JAIL_NAME}" sysrc caddy_config="/usr/local/www/Caddyfile"
