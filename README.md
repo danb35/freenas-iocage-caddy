@@ -81,8 +81,8 @@ This Caddyfile will serve HTML pages out of `/usr/local/www/html` over HTTP.  Ni
 *:80 {
 	root * /usr/local/www/html
 	file_server
-	reverse_proxy /sonarr 192.168.1.12:8989
-	reverse_proxy /radarr 192.168.1.12:9898
+	reverse_proxy /sonarr/* 192.168.1.12:8989
+	reverse_proxy /radarr/* 192.168.1.12:9898
 }
 ```
 This will still serve static pages out of `/usr/local/www/html` over HTTP (so maybe you want to put a nice landing page there), but any requests for `/sonarr` or `/radarr` will be proxied to those respective ports on the host you specify.
