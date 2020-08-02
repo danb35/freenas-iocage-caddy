@@ -9,6 +9,14 @@ This script will work with FreeNAS 11.3, and it should also work with TrueNAS CO
 ## Usage
 Many users install a variety of web applications in jails on their FreeNAS servers, and often those applications run on non-standard ports like 6789, 8181, 7878, etc. These port numbers are far from intuitive, and the applications often either don't implement HTTPS at all, or make it difficult to configure. A common recommendation to address these issues is to install a separate web server to act as a reverse proxy (allowing you to browse to simpler URLs like http://yourserver/radarr), and also to handle the TLS termination. Although popular web servers like Apache and Nginx can act as reverse proxies, configuration is complex, and neither of them handle the TLS certificates and configuration by default. This guide will cover installing Caddy in its own jail, configuring it to act as a proxy for your other applications, and optionally obtaining TLS certificates from Let's Encrypt and using them to encrypt your communications.
 
+The Caddy installation performed by this script is pretty bare-bones, and can be adapted by the user for a variety of different uses.  The primary purposes envisioned by this guide are:
+
+* Serve static HTML web pages (using PHP will require installing additional packages in the jail)
+* Acting as a reverse proxy, as described above
+  * Optionally providing TLS termination for your apps
+
+This author's purpose for the reverse proxy is entirely on his own LAN, not anything that would be exposed to the Internet.  If you're wanting to expose a reverse proxy to the Internet as a way of making services on your LAN accessible from the Internet, this installation will do that as well (just forward ports 80 and 443 to this jail).  However, it'd be worth investigating whether your router has a similar capability (as both [pfSense](https://www.pfsense.org/) and [OPNsense](https://opnsense.org/) do).  If so, implementing the proxy on your router may be the better way to go.
+
 ### Prerequisites
 
 Although not required, it's recommended to create a Dataset named `apps` with a sub-dataset named `caddy` on your main storage pool.  Many other jail guides also store their configuration and data in subdirectories of `pool/apps/` If this dataset is not present, a directory `/apps/caddy` will be created in `$POOL_PATH`.
@@ -34,10 +42,12 @@ Many of the options are self-explanatory, and all should be adjusted to suit you
 In addition, there are some other options which have sensible defaults, but can be adjusted if needed. These are:
 
 - JAIL_NAME: The name of the jail, defaults to "caddy"
-- CONFIG_PATH: This is the path to your Caddyfile, defaults to $POOL_PATH/caddy.
+- CONFIG_PATH: This is the path to your Caddyfile, defaults to $POOL_PATH/apps/caddy.
 - INTERFACE: The network interface to use for the jail. Defaults to `vnet0`.
 - VNET: Whether to use the iocage virtual network stack. Defaults to `on`.
 - DNS_PLUGIN: This contains the name of the DNS validation plugin you'll use with Caddy to validate domain control. Visit the [Caddy download page](https://caddyserver.com/download) to see the DNS authentication plugins currently available. To build Caddy with your desired plugin, use the last part of the "Package" on that page as DNS_PLUGIN in your `caddy-config` file. E.g., if the package name is `github.com/caddy-dns/cloudflare`, you'd set `DNS_PLUGIN=cloudflare`. From that page, there are also links to the documentation for each plugin, which will describe what credentials are needed.
+
+$CONFIG_PATH is mounted inside the jail at `/usr/local/www`.  The Caddyfile goes there, but that's also where your web pages will go, if you're serving any web content directly from this jail--that would ordinarily go in `/usr/local/www/html` inside the jail, or $CONFIG_PATH/html on your FreeNAS system.
 
 Also, if you're going to be using TLS with this Caddy installation, HOST_NAME needs to resolve to your jail from inside your network. You'll probably need to configure this on your router. If you're unable to do so, you can edit the hosts file on your client computers to achieve this result.
 
