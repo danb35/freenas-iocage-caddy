@@ -147,7 +147,7 @@ fi
 
 # Copy pre-written config files
 iocage exec "${JAIL_NAME}" cp /mnt/includes/caddy /usr/local/etc/rc.d/
-iocage exec "${JAIL_NAME}" cp "${INCLUDES_PATH}"/Caddyfile /usr/local/www/
+iocage exec "${JAIL_NAME}" cp -n /mnt/includes/Caddyfile /usr/local/www/ 2>/dev/null
 
 iocage exec "${JAIL_NAME}" sysrc caddy_enable="YES"
 iocage exec "${JAIL_NAME}" sysrc caddy_config="/usr/local/www/Caddyfile"

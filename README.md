@@ -127,7 +127,7 @@ sub.domain.com {
 	}
 }
 ```
-Compared to the last example, the only change is the `tls{}` block.  In that block, `dns` is a required keyword, `cloudflare` is the name of the plugin being used, and `log_api_token` is a Cloudflare API token with appropriate permissions.  The reverse proxy is added as above.
+Compared to the last example, the only change is the `tls{}` block.  In that block, `dns` is a required keyword, `cloudflare` is the name of the plugin being used, and `long_api_token` is a Cloudflare API token with appropriate permissions.  The reverse proxy is added as above.
 
 Authentication credentials vary for each supported DNS host.  The Caddy download page links to the individual plugins, which document the required credentials and how to specify them.  You'll need to make adjustments for your own situation.
 
