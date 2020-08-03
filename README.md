@@ -1,5 +1,3 @@
-# Work in progress, not for production use.
-
 # freenas-iocage-caddy
 This script will create an iocage jail on FreeNAS 11.3 or TrueNAS CORE 12.0 with the latest Caddy 2.x release.
 
