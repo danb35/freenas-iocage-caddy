@@ -23,7 +23,7 @@ Although not required, it's recommended to create a Dataset named `apps` with a 
 
 ### Installation
 
-Download the repository to a convenient directory on your FreeNAS system by changing to that directory and running `git clone https://github.com/danb35/freenas-iocage-caddy`. Then change into the new `freenas-iocage-caddy` directory and create a file called `caddy-config` with your favorite text editor. In its minimal form, it would look like this:
+Download the repository to a convenient directory on your FreeNAS system by changing to that directory and running `git clone https://github.com/danb35/freenas-iocage-caddy`. Then change into the new freenas-iocage-caddy directory and create a file called caddy-config with your favorite text editor. In its minimal form, it would look like this:
 
 ```
 JAIL_IP="192.168.1.199"
@@ -61,6 +61,8 @@ To test your installation, enter your Caddy jail IP address and port 2020 e.g. `
 
 ## The Caddyfile
 Caddy looks for its configuration in the Caddyfile. Its syntax is fairly simple, and is fully documented in the [Caddy Docs](https://caddyserver.com/docs/).  It's saved outside the jail in `$POOL_PATH/apps/caddy/`, so you can edit it without entering the jail.  This script installs a very basic Caddyfile which only prints "Hello, world!"; to actually act as a reverse proxy or web server, you'll need to create your own Caddyfile.  I'll discuss a few scenarios with examples of the Caddyfile below.
+
+For a more extensively-annotated Caddyfile, see `Caddyfile.example` at `/usr/local/www/Caddyfile.example` in your jail.
 
 ### Prerequisites (Let's Encrypt)
 Caddy works best when your installation is able to obtain a certificate from Let's Encrypt. When you use it this way, Caddy is able to handle all of the TLS-related configuration for you, obtain and renew certificates automatically, etc. In order for this to happen, you must meet the two requirements below:
@@ -112,7 +114,7 @@ sub.domain.com {
 ```
 As before, this will serve HTML pages out of `/usr/local/www/html`.  But unlike the previous example, this Caddyfile will obtain a certificate from Let's Encrypt, renew it automatically, configure TLS, and redirect HTTP to HTTPS.  
 
-The top block here is optional, but recommended.  The first directive tells Caddy to use the Let's Encrypt staging server.  Certificates issued by this server won't be trusted by your browser, but you're much less likely to exceed the rate limits.  Once you're sure your system is working properly, you can comment it out.  The second directive is an email address Let's Encrypt can use to notify you of certificate expiration or other major events.  If things are working properly, you'll very rarely get an email from them.
+The top block here is optional, but recommended.  The first directive tells Caddy to use the Let's Encrypt staging server.  Certificates issued by this server won't be trusted by your browser, but you're much less likely to exceed the [rate limits](https://letsencrypt.org/docs/rate-limits/).  Once you're sure your system is working properly, you can comment it out.  The second directive is an email address Let's Encrypt can use to notify you of certificate expiration or other major events.  If things are working properly, you'll very rarely get an email from them.
 
 In the second block, there are two changes:
 
@@ -130,11 +132,11 @@ This gets a little more complicated.  DNS validation will let you obtain a certi
 }
 
 sub.domain.com {
-	root * /usr/local/www/html
-	file_server
 	tls {
 		dns cloudflare long_api_token
 	}
+	root * /usr/local/www/html
+	file_server
 }
 ```
 Compared to the last example, the only change is the `tls{}` block.  In that block, `dns` is a required keyword, `cloudflare` is the name of the plugin being used, and `long_api_token` is a Cloudflare API token with appropriate permissions.  The reverse proxy is added as above.

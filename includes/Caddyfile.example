@@ -1,1 +1,115 @@
+# Example Caddyfile
+# This file is intended to be an example, and demonstrate some common options.
+# Do not copy and use it, but rather, consider these examples.  Full
+# documentation at https://caddyserver.com/docs/caddyfile
 
+# Global options
+# The options set here will affect all code blocks below.
+
+{
+	# Use the Let's Encrypt test server.  This will issue certs that aren't
+	# trusted by your browser, but it will also make it unlikely that you'll
+	# exceed the Let's Encrypt rate limits 
+	# (see https://letsencrypt.org/docs/rate-limits/).  Comment out this line
+	# to use the production server instead.
+	acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
+	
+	# Email for certificate expiration notices and other alerts from Let's
+	# Encrypt.  Optional, but recommended.
+	email you@somewhere.com
+	
+	# Debug mode.  Extensive logging, may be useful in tracking down problems.
+	# Uncomment to enable.
+	# debug
+	
+	# If you're using Caddy behind a reverse proxy, and you're serving HTTPS
+	# with Caddy, you may need to tell Caddy which site to serve clients
+	# (i.e., your reverse proxy) who don't use SNI
+	# default_sni sub.yourdomain.com
+}
+
+# All the examples below are name-based virtual hosts.  For them to work
+# properly, whatever device is providing DNS for your network (likely your
+# router) needs to point their hostnames to the IP address of your Caddy
+# jail.  Configuring this is beyond the scope of this guide.
+
+# A HTTP-only virtual host.  Specifying port 80 disables Caddy's automatic
+# HTTPS.
+
+sub1.example.com:80 {
+	
+	# Document root.  The * is required
+	root * /usr/local/www/html1
+	# Serve files from disk.  This directive is required to serve static
+	# (e.g., HTML) files.
+	file_server
+	
+	# Access log will by default go to /var/log/caddy.log as JSON unless
+	# changed
+	log {
+		output file /var/log/sub1.example.com.log
+		format single_field common_log
+	}
+	
+	# Reverse proxy Radarr and Sonarr.  You'll be able to reach them at
+	# http://sub1.example.com/radarr (or /sonarr)
+	reverse_proxy /sonarr* 192.168.1.15:8989
+	reverse_proxy /radarr* 192.168.1.15:7878
+}
+
+# A virtual host with automatic HTTPS, using HTTP validation for the cert.
+# For this to work, ports 80 and 443 must be open from the entire Internet
+# to your Caddy jail.  Caddy will automatically obtain the cert from Let's
+# Encrypt, install it, and renew it when necessary.  It will also redirect
+# HTTP to HTTPS requests.  The only difference is the lack of a port number.
+
+sub2.example.com {
+
+	root * /usr/local/html2
+	file_server
+	
+	# Access log will be in .json if another format isn't specified
+	log {
+		output file /var/log/sub2.example.com.log
+	}
+	
+	# Reverse proxy Jackett and Lidarr.  In addition to providing a nice
+	# URL as above, this will provide TLS termination (i.e., HTTPS) also.
+	# (e.g., https://sub2.example.com/jackett)
+	reverse_proxy /jackett* 192.168.1.15:9117
+	reverse_proxy /lidarr* 192.168.1.15:8686
+}
+
+# Another virtual host with automatic HTTPS, but using DNS validation for
+# the cert.  Support is currently limited to a few DNS hosts, and requires
+# a plugin that must be compiled into Caddy.  This example will use
+# Cloudflare; consult the Caddy docs for other possibilities.
+
+sub3.example.com {
+
+	# The tls directive modifies Caddy's TLS settings.  Here, it tells
+	# Caddy to obtain the cert using DNS validation, using the
+	# Cloudflare plugin, and provides the API token to authenticate.
+	tls {
+		dns cloudflare long_api_token
+	}
+
+	root * /usr/local/html2
+	file_server
+	
+	# No access log for this block
+	log {
+		output discard
+	}
+}
+
+# Some applications, like Duplicati, don't support access via a subdirectory
+# (e.g., http://yourhost/duplicati).  If you want to proxy to those, you'll
+# need a separate virtual host like this one.  This example still does
+# automatic HTTPS, using HTTP validation.
+
+dup.example.com {
+
+	# Reverse proxy all requests for this host name
+	reverse_proxy 192.168.1.16:8200
+}
