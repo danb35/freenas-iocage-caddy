@@ -29,7 +29,6 @@ Download the repository to a convenient directory on your FreeNAS system by chan
 JAIL_IP="192.168.1.199"
 DEFAULT_GW_IP="192.168.1.1"
 POOL_PATH="/mnt/tank"
-HOST_NAME="YOUR_FQDN"
 ```
 
 Many of the options are self-explanatory, and all should be adjusted to suit your needs, but only a few are mandatory. The mandatory options are:
@@ -37,7 +36,6 @@ Many of the options are self-explanatory, and all should be adjusted to suit you
 - JAIL_IP is the IP address for your jail. You can optionally add the netmask in CIDR notation (e.g., 192.168.1.199/24). If not specified, the netmask defaults to 24 bits. Values of less than 8 bits or more than 30 bits are invalid.
 - DEFAULT_GW_IP is the address for your default gateway
 - POOL_PATH is the path for your data pool.
-- HOST_NAME is the fully-qualified domain name you want to assign to your installation. If you are planning to get a Let's Encrypt certificate (recommended), you must own (or at least control) this domain, because Let's Encrypt will test that control. If you're using a self-signed cert, or not getting a cert at all, it's only important that this hostname resolve to your jail inside your network.
 
 In addition, there are some other options which have sensible defaults, but can be adjusted if needed. These are:
 
