@@ -21,6 +21,7 @@ DEFAULT_GW_IP=""
 INTERFACE="vnet0"
 VNET="on"
 POOL_PATH=""
+CONFIG_PATH=""
 JAIL_NAME="caddy"
 DNS_PLUGIN=""
 CONFIG_NAME="caddy-config"
@@ -60,7 +61,7 @@ if [ -z "${HOST_NAME}" ]; then
   exit 1
 fi
 
-# If CONFIG_PATH wasn't set in nextcloud-config, set it
+# If CONFIG_PATH wasn't set in caddy-config, set it
 if [ -z "${CONFIG_PATH}" ]; then
   CONFIG_PATH="${POOL_PATH}"/apps/caddy
 fi
