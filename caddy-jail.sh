@@ -101,6 +101,9 @@ then
 fi
 rm /tmp/pkg.json
 
+# Change the default shell from csh to bash
+chsh -s /usr/local/bin/bash
+
 #####
 #
 # Directory Creation and Mounting
