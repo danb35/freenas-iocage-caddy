@@ -45,7 +45,7 @@ In addition, there are some other options which have sensible defaults, but can 
 
 $CONFIG_PATH is mounted inside the jail at `/usr/local/www`.  The Caddyfile goes there, but that's also where your web pages will go, if you're serving any web content directly from this jail--that would ordinarily go in `/usr/local/www/html` inside the jail, or $CONFIG_PATH/html on your FreeNAS system.
 
-Also, if you're going to be using TLS with this Caddy installation, HOST_NAME needs to resolve to your jail from inside your network. You'll probably need to configure this on your router. If you're unable to do so, you can edit the hosts file on your client computers to achieve this result.
+Also, if you're going to be using TLS with this Caddy installation, your domain needs to resolve to your jail from inside your network. You'll probably need to configure this on your router. If you're unable to do so, you can edit the hosts file on your client computers to achieve this result.
 
 ### Execution
 
