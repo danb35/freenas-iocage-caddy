@@ -56,11 +56,6 @@ if [ -z "${POOL_PATH}" ]; then
   echo 'Configuration error: POOL_PATH must be set'
   exit 1
 fi
-if [ -z "${HOST_NAME}" ]; then
-  echo 'Configuration error: HOST_NAME must be set'
-  exit 1
-fi
-
 # If CONFIG_PATH wasn't set in caddy-config, set it
 if [ -z "${CONFIG_PATH}" ]; then
   CONFIG_PATH="${POOL_PATH}"/apps/caddy
