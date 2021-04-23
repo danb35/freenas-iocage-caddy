@@ -117,18 +117,14 @@ iocage fstab -a "${JAIL_NAME}" "${INCLUDES_PATH}" /mnt/includes nullfs rw 0 0
 #####
 
 # Build xcaddy, use it to build Caddy
-if ! iocage exec "${JAIL_NAME}" "go get -u github.com/caddyserver/xcaddy/cmd/xcaddy"
+if ! iocage exec "${JAIL_NAME}" "go install github.com/caddyserver/xcaddy/cmd/xcaddy@latest"
 then
-  echo "Failed to get xcaddy, terminating."
+  echo "Failed to install xcaddy, terminating."
   exit 1
 fi
-if ! iocage exec "${JAIL_NAME}" go build -o /usr/local/bin/xcaddy github.com/caddyserver/xcaddy/cmd/xcaddy
-then
-  echo "Failed to build xcaddy, terminating."
-  exit 1
-fi
+iocage exec "${JAIL_NAME}" mv /root/go/bin/xcaddy /usr/local/bin/xcaddy
 if [ -n "${DNS_PLUGIN}" ]; then
-  if ! iocage exec "${JAIL_NAME}" xcaddy build master --output /usr/local/bin/caddy --with github.com/caddy-dns/"${DNS_PLUGIN}"
+  if ! iocage exec "${JAIL_NAME}" xcaddy build --output /usr/local/bin/caddy --with github.com/caddy-dns/"${DNS_PLUGIN}"
   then
     echo "Failed to build Caddy with ${DNS_PLUGIN} plugin, terminating."
     exit 1
