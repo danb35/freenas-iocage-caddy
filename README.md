@@ -2,10 +2,10 @@
 This script will create an iocage jail on FreeNAS 11.3 or TrueNAS CORE 12.0 with the latest Caddy 2.x release.
 
 ## Status
-This script will work with FreeNAS 11.3, and it should also work with TrueNAS CORE 12.0. Due to the EOL status of FreeBSD 11.2, it is unlikely to work reliably with earlier releases of FreeNAS.
+This script will work with FreeNAS 11.3 and TrueNAS CORE 12.0. Due to the EOL status of FreeBSD 11.2, it is unlikely to work reliably with earlier releases of FreeNAS.
 
 ## Usage
-Many users install a variety of web applications in jails on their FreeNAS servers, and often those applications run on non-standard ports like 6789, 8181, 7878, etc. These port numbers are far from intuitive, and the applications often either don't implement HTTPS at all, or make it difficult to configure. A common recommendation to address these issues is to install a separate web server to act as a reverse proxy (allowing you to browse to simpler URLs like http://yourserver/radarr), and also to handle the TLS termination. Although popular web servers like Apache and Nginx can act as reverse proxies, configuration is complex, and neither of them handle the TLS certificates and configuration by default. This guide will cover installing Caddy in its own jail, configuring it to act as a proxy for your other applications, and optionally obtaining TLS certificates from Let's Encrypt and using them to encrypt your communications.
+Many users install a variety of web applications in jails on their FreeNAS servers, and often those applications run on non-standard ports like 6789, 8181, 7878, etc. These port numbers are far from intuitive, and the applications often either don't implement HTTPS at all, or make it difficult to configure. A common recommendation to address these issues is to install a separate web server to act as a reverse proxy (allowing you to browse to simpler URLs like http://yourserver/radarr), and also to handle the TLS termination. Although popular web servers like Apache and Nginx can act as reverse proxies, configuration is complex, and neither of them handle the TLS certificates and configuration by default. This guide will cover installing Caddy in its own jail, configuring it to act as a proxy for your other applications, and optionally obtaining TLS certificates from Let's Encrypt and/or ZeroSSL and using them to encrypt your communications.
 
 The Caddy installation performed by this script is pretty bare-bones, and can be adapted by the user for a variety of different uses.  The primary purposes envisioned by this guide are:
 
@@ -21,7 +21,7 @@ Although not required, it's recommended to create a Dataset named `apps` with a 
 
 ### Installation
 
-Download the repository to a convenient directory on your FreeNAS system by changing to that directory and running `git clone https://github.com/danb35/freenas-iocage-caddy`. Then change into the new freenas-iocage-caddy directory and create a file called caddy-config with your favorite text editor. In its minimal form, it would look like this:
+Download the repository to a convenient directory on your TrueNAS/FreeNAS system by changing to that directory and running `git clone https://github.com/danb35/freenas-iocage-caddy`. Then change into the new freenas-iocage-caddy directory and create a file called caddy-config with your favorite text editor. In its minimal form, it would look like this:
 
 ```
 JAIL_IP="192.168.1.199"
@@ -43,7 +43,7 @@ In addition, there are some other options which have sensible defaults, but can 
 - VNET: Whether to use the iocage virtual network stack. Defaults to `on`.
 - DNS_PLUGIN: This contains the name of the DNS validation plugin you'll use with Caddy to validate domain control. Visit the [Caddy download page](https://caddyserver.com/download) to see the DNS authentication plugins currently available. To build Caddy with your desired plugin, use the last part of the "Package" on that page as DNS_PLUGIN in your `caddy-config` file. E.g., if the package name is `github.com/caddy-dns/cloudflare`, you'd set `DNS_PLUGIN=cloudflare`. From that page, there are also links to the documentation for each plugin, which will describe what credentials are needed.
 
-$CONFIG_PATH is mounted inside the jail at `/usr/local/www`.  The Caddyfile goes there, but that's also where your web pages will go, if you're serving any web content directly from this jail--that would ordinarily go in `/usr/local/www/html` inside the jail, or $CONFIG_PATH/html on your FreeNAS system.
+$CONFIG_PATH is mounted inside the jail at `/usr/local/www`.  The Caddyfile goes there, and that's also where your web pages will go, if you're serving any web content directly from this jail--that would ordinarily go in `/usr/local/www/html` inside the jail, or $CONFIG_PATH/html on your FreeNAS system.
 
 Also, if you're going to be using TLS with this Caddy installation, your domain needs to resolve to your jail from inside your network. You'll probably need to configure this on your router. If you're unable to do so, you can edit the hosts file on your client computers to achieve this result.
 
@@ -60,12 +60,12 @@ Caddy looks for its configuration in the Caddyfile. Its syntax is fairly simple,
 
 For a more extensively-annotated Caddyfile, see `Caddyfile.example` at `/usr/local/www/Caddyfile.example` in your jail.
 
-### Prerequisites (Let's Encrypt)
-Caddy works best when your installation is able to obtain a certificate from Let's Encrypt. When you use it this way, Caddy is able to handle all of the TLS-related configuration for you, obtain and renew certificates automatically, etc. In order for this to happen, you must meet the two requirements below:
+### Prerequisites (TLS Certificate)
+Caddy works best when your installation is able to obtain a TLS certificate.  With the current release, Caddy will obtain certs from both Let's Encrypt and ZeroSSL if possible, giving you redundancy in the event of an outage of one certificate authority or the other. When you use it this way, Caddy is able to handle all of the TLS-related configuration for you, obtain and renew certificates automatically, etc. In order for this to happen, you must meet the two requirements below:
 
-First, you must own or control a real Internet domain name. This script obtains a TLS encryption certificate from Let's Encrypt, who will only issue for public domain names. Thus, domains like cloud.local, mycloud.lan, or nextcloud.home won't work. Domains can be very inexpensive, and in some cases, they can be free. Freenom, for example, provides domains for free if you jump through the right hoops. EasyDNS is a fine domain registrar for paid domains, costing roughly US$15 per year (which varies slightly with the top-level domain).
+First, you must own or control a real Internet domain name. This script obtains a TLS encryption certificate from Let's Encrypt and/or ZeroSSL, who will only issue for public domain names. Thus, domains like cloud.local, mycloud.lan, or nextcloud.home won't work. Domains can be very inexpensive, and in some cases, they can be free. Freenom, for example, provides domains for free if you jump through the right hoops. EasyDNS is a fine domain registrar for paid domains, costing roughly US$15 per year (which varies slightly with the top-level domain).
 
-Second, one of these two conditions must be met in order for Let's Encrypt to validate your control over the domain name:
+Second, one of these two conditions must be met in order for the certificate authority to validate your control over the domain name:
 
 * You must be able and willing to open ports 80 and 443 from the entire Internet to the jail, and leave them open.
 * DNS hosting for the domain name needs to be with a provider that Caddy supports. 
@@ -110,7 +110,7 @@ sub.domain.com {
 ```
 As before, this will serve HTML pages out of `/usr/local/www/html`.  But unlike the previous example, this Caddyfile will obtain a certificate from Let's Encrypt, renew it automatically, configure TLS, and redirect HTTP to HTTPS.  
 
-The top block here is optional, but recommended.  The first directive tells Caddy to use the Let's Encrypt staging server.  Certificates issued by this server won't be trusted by your browser, but you're much less likely to exceed the [rate limits](https://letsencrypt.org/docs/rate-limits/).  Once you're sure your system is working properly, you can comment it out.  The second directive is an email address Let's Encrypt can use to notify you of certificate expiration or other major events.  If things are working properly, you'll very rarely get an email from them.
+The top block here is optional, but recommended.  The first directive tells Caddy to use the Let's Encrypt staging server.  Certificates issued by this server won't be trusted by your browser, but you're much less likely to exceed the [rate limits](https://letsencrypt.org/docs/rate-limits/).  Once you're sure your system is working properly, you can comment it out (or delete it).  The second directive is an email address Let's Encrypt can use to notify you of certificate expiration or other major events.  If things are working properly, you'll very rarely get an email from them.
 
 In the second block, there are two changes:
 
@@ -144,7 +144,6 @@ Authentication credentials vary for each supported DNS host.  The Caddy download
 You can validate your Caddyfile changes with `service caddy validate`. To commit the changes gracefully and with zero downtime, use `service caddy reload` instead of `service caddy restart`. 
 
 ## Limitations
-:pushpin: *Is this still required? This may no longer be true with Caddy V2. Probably better to leave this section out altogether, at least for the moment.*
 
 Some apps are not amenable to being served over a reverse proxy, or at least with the configuration described above. Two such apps appear to be Duplicati and Urbackup. If your app doesn't work, try doing a web search for "(app name) reverse proxy" to see if (1) it's possible at all, and (2) if any special settings are required.
 
