@@ -141,7 +141,7 @@ Authentication credentials vary for each supported DNS host.  The Caddy download
 
 ### Test
 
-You can validate your Caddyfile changes with `service caddy validate`. To commit the changes gracefully and with zero downtime, use `service caddy reload` instead of `service caddy restart`. 
+You can validate your Caddyfile changes with `service caddy configtest`. To commit the changes gracefully and with zero downtime, use `service caddy reload` instead of `service caddy restart`. 
 
 ## Limitations
 
