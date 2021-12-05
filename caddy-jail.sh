@@ -71,7 +71,7 @@ if [ ${CONFIG_PATH:0:1} != "/" ]; then
 fi
 CONFIG_PATH="${CONFIG_PATH%/}"
 
-ASSETS_PATH=${CONFIG_PATH}/assets
+ASSETS_PATH="${CONFIG_PATH}/assets"
 
 # Extract IP and netmask, sanity check netmask
 IP=$(echo ${JAIL_IP} | cut -f1 -d/)
@@ -121,7 +121,7 @@ iocage exec "${JAIL_NAME}" mkdir -p /usr/local/www
 iocage exec "${JAIL_NAME}" mkdir -p /var/db/caddy
 
 iocage fstab -a "${JAIL_NAME}" "${CONFIG_PATH}" /usr/local/www nullfs rw 0 0
-iocage fstab -a "${JAIL_NAME}" "${ASSETS_PATH}" /usr/local/www nullfs rw 0 0
+iocage fstab -a "${JAIL_NAME}" "${ASSETS_PATH}" /var/db/caddy nullfs rw 0 0
 iocage fstab -a "${JAIL_NAME}" "${INCLUDES_PATH}" /mnt/includes nullfs rw 0 0
 
 
