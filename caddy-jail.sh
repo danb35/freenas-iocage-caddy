@@ -58,8 +58,20 @@ if [ -z "${POOL_PATH}" ]; then
 fi
 # If CONFIG_PATH wasn't set in caddy-config, set it
 if [ -z "${CONFIG_PATH}" ]; then
+  POOL_PATH="${POOL_PATH%/}"
   CONFIG_PATH="${POOL_PATH}"/apps/caddy
 fi
+if [ "${CONFIG_PATH}" = "${POOL_PATH}" ]; then
+  echo "CONFIG_PATH must be different from POOL_PATH!"
+  exit 1
+fi
+
+if [ ${CONFIG_PATH:0:1} != "/" ]; then
+  CONFIG_PATH="/${CONFIG_PATH}"
+fi
+CONFIG_PATH="${CONFIG_PATH%/}"
+
+ASSETS_PATH=${CONFIG_PATH}/assets
 
 # Extract IP and netmask, sanity check netmask
 IP=$(echo ${JAIL_IP} | cut -f1 -d/)
@@ -102,13 +114,16 @@ rm /tmp/pkg.json
 #
 #####
 
-mkdir -p "${CONFIG_PATH}"
+mkdir -p "${ASSETS_PATH}"
 
 iocage exec "${JAIL_NAME}" mkdir -p /mnt/includes
 iocage exec "${JAIL_NAME}" mkdir -p /usr/local/www
+iocage exec "${JAIL_NAME}" mkdir -p /var/db/caddy
 
 iocage fstab -a "${JAIL_NAME}" "${CONFIG_PATH}" /usr/local/www nullfs rw 0 0
+iocage fstab -a "${JAIL_NAME}" "${ASSETS_PATH}" /usr/local/www nullfs rw 0 0
 iocage fstab -a "${JAIL_NAME}" "${INCLUDES_PATH}" /mnt/includes nullfs rw 0 0
+
 
 #####
 #
