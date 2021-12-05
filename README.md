@@ -38,12 +38,12 @@ Many of the options are self-explanatory, and all should be adjusted to suit you
 In addition, there are some other options which have sensible defaults, but can be adjusted if needed. These are:
 
 - JAIL_NAME: The name of the jail, defaults to "caddy"
-- CONFIG_PATH: This is the path to your Caddyfile, defaults to $POOL_PATH/apps/caddy.
+- CONFIG_PATH: This is the path to your Caddyfile and other Caddy assets, defaults to $POOL_PATH/apps/caddy.
 - INTERFACE: The network interface to use for the jail. Defaults to `vnet0`.
 - VNET: Whether to use the iocage virtual network stack. Defaults to `on`.
 - DNS_PLUGIN: This contains the name of the DNS validation plugin you'll use with Caddy to validate domain control. Visit the [Caddy download page](https://caddyserver.com/download) to see the DNS authentication plugins currently available. To build Caddy with your desired plugin, use the last part of the "Package" on that page as DNS_PLUGIN in your `caddy-config` file. E.g., if the package name is `github.com/caddy-dns/cloudflare`, you'd set `DNS_PLUGIN=cloudflare`. From that page, there are also links to the documentation for each plugin, which will describe what credentials are needed.
 
-$CONFIG_PATH is mounted inside the jail at `/usr/local/www`.  The Caddyfile goes there, and that's also where your web pages will go, if you're serving any web content directly from this jail--that would ordinarily go in `/usr/local/www/html` inside the jail, or $CONFIG_PATH/html on your FreeNAS system.
+$CONFIG_PATH is mounted inside the jail at `/usr/local/www`.  The Caddyfile goes there, and that's also where your web pages will go, if you're serving any web content directly from this jail--that would ordinarily go in `/usr/local/www/html` inside the jail, or $CONFIG_PATH/html on your FreeNAS system. Other Caddy assets, such as certificates are saved in $CONFIG_PATH/assets and mounted inside the jail at `var/db/caddy`.
 
 Also, if you're going to be using TLS with this Caddy installation, your domain needs to resolve to your jail from inside your network. You'll probably need to configure this on your router. If you're unable to do so, you can edit the hosts file on your client computers to achieve this result.
 
