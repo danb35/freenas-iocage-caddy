@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Build an iocage jail under FreeNAS 11.3-12.0 using the current release of Caddy
 # git clone https://github.com/danb35/freenas-iocage-caddy
 
