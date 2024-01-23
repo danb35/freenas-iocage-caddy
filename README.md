@@ -1,8 +1,8 @@
 # freenas-iocage-caddy
-This script will create an iocage jail on FreeNAS 11.3 or TrueNAS CORE 12.0 with the latest Caddy 2.x release.
+This script will create an iocage jail on TrueNAS CORE 13.0 with the latest Caddy 2.x release.
 
 ## Status
-This script will work with FreeNAS 11.3 and TrueNAS CORE 12.0. Due to the EOL status of FreeBSD 11.2, it is unlikely to work reliably with earlier releases of FreeNAS.
+This script will work with FTrueNAS CORE 13.0. It is unlikely to work reliably with earlier releases of FreeNAS.
 
 ## Usage
 Many users install a variety of web applications in jails on their FreeNAS servers, and often those applications run on non-standard ports like 6789, 8181, 7878, etc. These port numbers are far from intuitive, and the applications often either don't implement HTTPS at all, or make it difficult to configure. A common recommendation to address these issues is to install a separate web server to act as a reverse proxy (allowing you to browse to simpler URLs like http://yourserver/radarr), and also to handle the TLS termination. Although popular web servers like Apache and Nginx can act as reverse proxies, configuration is complex, and neither of them handle the TLS certificates and configuration by default. This guide will cover installing Caddy in its own jail, configuring it to act as a proxy for your other applications, and optionally obtaining TLS certificates from Let's Encrypt and/or ZeroSSL and using them to encrypt your communications.
